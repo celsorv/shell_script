@@ -22,7 +22,7 @@ echo -e "DATA\t\tINÍCIO\t\tTÉRMINO\t\tDURAÇÃO"
 echo "-------------------------------------------------------"
 
 # 1. Filtramos apenas entradas de 'reboot' (quando o sistema iniciou)
-# 2. O campo $10 do 'last' para 'reboot' mostra quanto tempo o sistema ficou UP.
+# 2. O campo $11 do 'last' para 'reboot' mostra quanto tempo o sistema ficou UP.
 data_info=$(last reboot -s -7days | grep "reboot" | grep -v "running" | awk '{print $5"|"$6"|"$7"|"$8"|"$10"|"$11}' | tr -d '()')
 
 total_minutos=0
