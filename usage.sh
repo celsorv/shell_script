@@ -22,7 +22,7 @@ echo -e "DATA\t\tINÍCIO\t\tTÉRMINO\t\tDURAÇÃO"
 echo "-------------------------------------------------------"
 
 # 1. Filtramos apenas entradas de 'reboot' (quando o sistema iniciou)
-# 2. O campo $11 do 'last' para 'reboot' mostra quanto tempo o sistema ficou UP.
+# 2. O campo $10 do 'last' para 'reboot' mostra quanto tempo o sistema ficou UP.
 data_info=$(last reboot -s -7days | grep "reboot" | grep -v "running" | awk '{print $5"|"$6"|"$7"|"$8"|"$10"|"$11}' | tr -d '()')
 
 total_minutos=0
@@ -32,6 +32,7 @@ for linha in $data_info; do
 
     # Separando os dados
     diasem=$(echo $linha | cut -d'|' -f1)
+    mes=$(echo $linha | cut -d'|' -f2)
     dianum=$(printf "%02d" $(echo $linha | cut -d'|' -f3))
     inicio=$(echo $linha | cut -d'|' -f4)
     termino=$(echo $linha | cut -d'|' -f5)
@@ -60,7 +61,7 @@ for linha in $data_info; do
 
     if [ $minutos_sessao -gt 0 ]; then
         total_minutos=$((total_minutos + minutos_sessao))
-        echo -e "$dianum $diasem\t\t$inicio\t\t$termino\t\t$duracao"
+        echo -e "$mes $dianum $diasem\t$inicio\t\t$termino\t\t$duracao"
         ((contagem_sessoes++))
     fi
 
